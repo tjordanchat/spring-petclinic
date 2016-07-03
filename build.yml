@@ -8,7 +8,7 @@ test:
       TPID=$!
       Xvfb :1 -screen 0 1280x960x24 &
       XPID=$!
-      sleep 4
+      sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
       sleep 10
