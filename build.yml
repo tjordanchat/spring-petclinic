@@ -3,13 +3,16 @@ build:
    bash: mvn compile war:war
    artifacts: ./target/petclinic.war
    test:|
+      ./mvnw tomcat7:run &
+      TPID=$!
       Xvfb :1 -screen 0 1280x960x24 &
+      XPID=$!
       sleep 4
       firefox localhost:9966/petclinic &
-      BPID=$!
+      FPID=$!
       sleep 10
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
-      kill -9 $BPID
+      kill -9 $FPID $XPID $TPID
 sonar:
    bash: mvn sonar:sonar
 
