@@ -2,7 +2,8 @@ env: centos7java1.8
 build:
    bash: mvn compile war:war
    artifacts: ./target/petclinic.war
-   test:|
+test:
+   bash: |
       ./mvnw tomcat7:run &
       TPID=$!
       Xvfb :1 -screen 0 1280x960x24 &
@@ -13,6 +14,7 @@ build:
       sleep 10
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
       kill -9 $FPID $XPID $TPID
+   artifacts: screenshot.jpg
 sonar:
    bash: mvn sonar:sonar
 
