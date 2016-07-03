@@ -1,0 +1,7 @@
+env: centos7java1.8
+build:
+   bash: mvn compile war:war
+   artifacts: ./target/petclinic.war
+sonar:
+   bash: mvn sonar:sonar
+
