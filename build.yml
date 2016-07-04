@@ -4,14 +4,15 @@ build:
    artifacts: ./target/petclinic.war
 test:
    bash: |
-      ./mvnw tomcat7:run &
-      TPID=$!
       Xvfb :1 -screen 0 1280x960x24 &
       XPID=$!
+      sleep 10
+      ./mvnw tomcat7:run &
+      TPID=$!
       sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
-      sleep 10
+      sleep 40
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
       kill -9 $FPID $XPID $TPID
    artifacts: screenshot.jpg
