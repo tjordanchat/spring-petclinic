@@ -13,11 +13,8 @@ test:
       firefox localhost:9966/petclinic &
       FPID=$!
       sleep 30
-      xterm --geometry 73x31+100+300 -e echo "$BUILD_NUMBER"
-      BPID=$!
-      sleep 5
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
-      kill -9 $FPID $XPID $TPID $BPID
+      kill -9 $FPID $XPID $TPID
    artifacts: screenshot.jpg
       sleep 40
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.png
