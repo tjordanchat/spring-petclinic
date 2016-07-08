@@ -12,9 +12,12 @@ test:
       sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
-      sleep 40
+      sleep 30
+      xterm --geometry 73x31+100+300 -e echo "$BUILD_NUMBER"
+      BPID=$!
+      sleep 5
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
-      kill -9 $FPID $XPID $TPID
+      kill -9 $FPID $XPID $TPID $BPID
    artifacts: screenshot.jpg
 sonar:
    bash: mvn sonar:sonar
