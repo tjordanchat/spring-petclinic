@@ -1,6 +1,6 @@
 env: centos7java1.8
 build:
-   bash: mvn compile war:war
+   bash: mvn clean compile war:war
    artifacts: ./target/petclinic.war
 test:
    bash: |
@@ -18,5 +18,5 @@ test:
    artifacts: screenshot.png
    screenshot: screenshot.png
 sonar:
-   bash: mvn sonar:sonar
+   bash: mvn clean sonar:sonar
 
