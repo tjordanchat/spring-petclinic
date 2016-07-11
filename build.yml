@@ -15,7 +15,7 @@ test:
       sleep 40
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.png
       kill -9 $FPID $XPID $TPID
-   artifacts: screenshot.png
+   artifacts: ./target/*.war
    screenshot: screenshot.png
 sonar:
    bash: mvn sonar:sonar
