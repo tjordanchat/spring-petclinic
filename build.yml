@@ -12,6 +12,8 @@ test:
       sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
+      xterm -geometry 200x150-500-200-hold -e "figlet -f banner '$BUILD_NO" 
+      RPID=$!
       sleep 40
       xclock -geometry 200x200+1080+760  &
       CPID=$!
