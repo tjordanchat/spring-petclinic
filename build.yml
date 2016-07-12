@@ -15,7 +15,7 @@ test:
       xterm -geometry 50x10-0-0 -hold -e "figlet -f banner '# $BUILD_NO'" &
       RPID=$!
       sleep 40
-      xclock -geometry 200x200+880+760  &
+      xclock -geometry 200x200+680+760  &
       CPID=$!
       sleep 10
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.png
