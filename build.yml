@@ -12,9 +12,11 @@ test:
       sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
+      xterm -geometry 300x200-600-200 &
+      RPID=$!
       sleep 30
       import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.jpg
-      kill -9 $FPID $XPID $TPID
+      kill -9 $FPID $XPID $TPID $RPID
    screenshot: screenshot.png
 sonar:
    bash: mvn clean sonar:sonar
