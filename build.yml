@@ -12,9 +12,7 @@ test:
       sleep 20
       firefox localhost:9966/petclinic &
       FPID=$!
-      xterm -geometry 300x200-600-200 &
-      RPID=$!
-      sleep 30
+      sleep 40
       xclock -geometry 200x200+1080+760  &
       CPID=$!
       sleep 10
