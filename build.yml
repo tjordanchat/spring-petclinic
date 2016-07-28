@@ -22,5 +22,5 @@ test:
       kill -9 $CPID $FPID $XPID $TPID $RPID
    screenshot: screenshot.png
 sonar:
-   bash: mvn clean sonar:sonar
+   bash: clean sonar:sonar
 
