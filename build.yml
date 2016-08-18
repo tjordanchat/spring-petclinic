@@ -1,7 +1,7 @@
 env: centos7java1.8
 build:
    bash: mvn clean compile war:war
-   artifacts: ./target/petclinic.war
+   artifacts: ./target/petclinic-master-SNAPSHOT.war
 test:
    bash: |
       Xvfb :1 -screen 0 1280x960x24 &
