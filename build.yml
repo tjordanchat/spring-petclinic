@@ -2,24 +2,8 @@ env: centos7java1.8
 build:
    bash: mvn clean compile war:war
    artifacts: ./target/petclinic.war
-test:
-   bash: |
-      Xvfb :1 -screen 0 1280x960x24 &
-      XPID=$!
-      sleep 10
-      ./mvnw tomcat7:run &
-      TPID=$!
-      sleep 20
-      firefox localhost:9966/petclinic &
-      FPID=$!
-      xterm -geometry 50x10-0-0 -hold -e "figlet -f banner '# $BUILD_NO'" &
-      RPID=$!
-      sleep 40
-      xclock -geometry 200x200+680+760  &
-      CPID=$!
-      sleep 10
-      import -window root -crop 1264x948+0+0 -resize 800x600 -quality 95 screenshot.png
-      kill -9 $CPID $FPID $XPID $TPID $RPID
-   screenshot: screenshot.png
+screenshot:
+   server: ./mvnw tomcat7:run
+   client: firefox localhost:9966/petclinic
 sonar:
    bash: mvn clean sonar:sonar
