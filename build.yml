@@ -6,5 +6,5 @@ screenshot:
    server: ./mvnw tomcat7:run
    client: firefox localhost:9966/petclinic
 sonar:
-   bash: mvn clean sonar:sonar
+   bash: mvn sonar:sonar
 
