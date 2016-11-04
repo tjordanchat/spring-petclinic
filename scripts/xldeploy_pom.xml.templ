@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>{{#app}}{{project}}{{/app}}</groupId>
+    <artifactId>{{#app}}{{repo}}{{/app}}</artifactId>
+
+    <packaging>dar</packaging> <!-- DAR packaging -->
+
+    <version>{{#app}}{{branch}}{{/app}}-SNAPSHOT</version>
+    <name>Dar Format</name>
+    <url>http://www.xebialabs.com</url>
+
+     <properties>
+        <xldeploy.grpid>org.springframework.samples</xldeploy.grpid>
+        <xldeploy.username>{{#xl_deploy}}{{user}}{{/xl_deploy}}</xldeploy.username>
+        <xldeploy.password>{{#xl_deploy}}{{password}}{{/xl_deploy}}</xldeploy.password>
+        <xldeploy.server>{{#xl_deploy}}{{{url}}}{{/xl_deploy}}</xldeploy.server>
+        <xldeploy.port>{{#xl_deploy}}{{port}}{{/xl_deploy}}</xldeploy.port>
+        <xldeploy.app>{{#app}}{{project}}{{/app}}/{{#app}}{{repo}}{{/app}}</xldeploy.app> 
+        <xldeploy.grp>{{#app}}{{project}}{{/app}}</xldeploy.grp>
+        <xldeploy.artfid>{{#app}}{{repo}}{{/app}}</xldeploy.artfid>
+        <xldeploy.version>{{#app}}{{branch}}{{/app}}-SNAPSHOT</xldeploy.version>
+        <xldeploy.type>war</xldeploy.type>
+    </properties>
+   
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.xebialabs.xldeploy</groupId>
+                <artifactId>xldeploy-maven-plugin</artifactId>
+                <version>5.0.2</version>
+
+                <extensions>true</extensions> <!-- tells maven the plugin contains extensions -->
+
+                <configuration>
+                    <deploymentPackageProperties>
+                        <!-- Enter any deployment package level properties as <property>value</property> -->
+                        <orchestrator></orchestrator>
+                        <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
+                    </deploymentPackageProperties>
+                    
+		    <username>${xldeploy.username}</username>
+                    <password>${xldeploy.password}</password>
+                    <serverAddress>${xldeploy.server}</serverAddress>
+                    <port>${xldeploy.port}</port>
+                    <cancelTaskOnError>false</cancelTaskOnError>
+                    <applicationName>${xldeploy.app}</applicationName>
+                    <packageVersion>${xldeploy.version}</packageVersion>
+                <deployables>
+                        <tomcat.War name="${xldeploy.artfid}">
+                            <contextRoot></contextRoot>
+                            <fileUri>maven:${xldeploy.grp}:${xldeploy.artfid}:${xldeploy.type}:${xldeploy.version}</fileUri>
+                             <tags>
+                                <value>{{#app}}{{project}}{{/app}}.{{#app}}{{repo}}{{/app}}</value>
+                             </tags>
+                       </tomcat.War>
+                <xldeploy.DarPackage name="${xldeploy.artfid}_dar">
+      			<tags>
+        		<value>XLD</value>
+      			</tags>
+		    </xldeploy.DarPackage>
+                  </deployables>
+		</configuration>
+            </plugin>
+        </plugins>
+    </build>
+        <pluginRepositories>
+    <pluginRepository>
+        <id>xebialabs-maven2</id>
+        <url>https://dist.xebialabs.com/public/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+        <id>bintray-knopflerfish-knopflerfish-maven</id>
+           <name>bintray-plugins</name>
+           <url>http://dl.bintray.com/knopflerfish/knopflerfish-maven</url>
+    </pluginRepository>
+   </pluginRepositories>
+</project>
+

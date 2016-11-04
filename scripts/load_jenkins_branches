@@ -1,0 +1,46 @@
+#/bin/bash
+
+export JENKINS_URL="$( shyaml get-value jenkins.url < ~/pass.yml )"
+export GIT_USER="$( shyaml get-value gitlab.user < ~/pass.yml )"
+export GIT_PASSWD="$( shyaml get-value gitlab.password < ~/pass.yml )"
+
+jcli () {
+	java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s "$JENKINS_URL" $@ 2>/dev/null
+}
+
+process () {
+	GROUP=$1
+	REPO=$2
+	
+	jcli get-job $GROUP 2> /dev/null >/dev/null
+	RET=$?
+  if [ ! "$RET" = 0 ]
+  then
+  	jcli get-job Developer-Services 2>/dev/null | xsltproc --stringparam name "$GROUP" change_display_name.xsl - | jcli create-job "$GROUP" 2> /dev/null > /dev/null
+  fi
+	jcli get-job $GROUP/$REPO 2> /dev/null >/dev/null
+	RET=$?
+  if [ ! "$RET" = 0 ]
+  then
+  	jcli get-job Developer-Services 2>/dev/null | xsltproc --stringparam name "$REPO" change_display_name.xsl - | jcli create-job "$GROUP/$REPO" 2> /dev/null > /dev/null
+  fi
+}
+
+create_jobs () {
+	 GROUP=$1
+	 REPO=$2
+	 BRANCH=$3
+	 URL=$4
+	 
+	 jcli copy-job Developer-Services/std-build $GROUP/$REPO/$BRANCH
+   jcli  get-job Developer-Services/std-build | xsltproc --stringparam repo $URL --stringparam branch $BRANCH --stringparam user $GIT_USER --stringparam passwd $GIT_PASSWD  newer_change_url.xsl - | jcli update-job $GROUP/$REPO/$BRANCH
+   echo "Created: $GROUP/$REPO/$BRANCH"
+}
+
+~/bin/gitl | ~/bin/git_list_remote_branches | while read repo branch
+do
+	REPO=$( basename $repo | sed 's:"::;s:\.git$::' )
+	GROUP=$( basename $( dirname $repo ) )
+	process $GROUP $REPO 
+	create_jobs $GROUP $REPO $branch $repo
+done

@@ -1,0 +1,19 @@
+#!/bin/bash
+set -x
+
+export XLDEPLOY_USER="$(shyaml get-value artifactory.user < ~/pass.yml)"
+export XLDEPLOY_PASSWD="$(shyaml get-value artifactory.passwd < ~/pass.yml)"
+
+
+myApp = factory.configurationItem('Applications/myApp', 'udm.Application')
+repository.create(myApp)
+myApp1_0 = factory.configurationItem('Applications/myApp/1.0', 'udm.DeploymentPackage')
+repository.create(myApp1_0)
+myFile = factory.configurationItem('Applications/myApp/1.0/demo','jee.War', {'fileUri': 'maven:io.brooklyn.example:brooklyn-example-hello-world-webapp:war:0.7.0-M1'})
+repository.create(myFile)
+package = repository.read('Applications/myApp/1.0')
+environment = repository.read('Environments/Dev/TEST')
+deploymentRef = deployment.prepareInitial(package.id, environment.id)
+depl = deployment.prepareAutoDeployeds(deploymentRef)
+task = deployment.createDeployTask(depl)
+deployit.startTaskAndWait(task.id)
