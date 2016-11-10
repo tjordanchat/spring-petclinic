@@ -7,4 +7,3 @@ screenshot:
    client: firefox localhost:9966/petclinic
 sonar:
    bash: mvn sonar:sonar
-
