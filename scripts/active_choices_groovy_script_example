@@ -1,0 +1,7 @@
+def list = []
+def out = []
+list = "env".execute().text
+list.eachLine { String item ->
+out << item
+}
+return out

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export ART_USER="$(shyaml get-value artifactory.user < ~/pass.yml)"
+export ART_PASSWD="$(shyaml get-value artifactory.passwd < ~/pass.yml)"
+export ART_URL="$(shyaml get-value artifactory.url < ~/pass.yml)"
+export XLD_USER="$(shyaml get-value xl_deploy.user < ~/pass.yml)"
+export XLD_PASSWD="$(shyaml get-value xl_deploy.password < ~/pass.yml)"
+export XLD_URL="$(shyaml get-value xl_deploy.url < ~/pass.yml)"
+export XLD_PORT="$(shyaml get-value xl_deploy.port < ~/pass.yml)"
+
+cat <<EOF
+{
+	"artifactory" : {
+		"user": "$ART_USER",
+		"password": "$ART_PASSWD",
+		"url": "$ART_URL"
+	},
+	"xl_deploy": {
+		"user": "$XLD_USER",
+		"password": "$XLD_PASSWD",
+		"url": "$XLD_URL",
+		"port": "$XLD_PORT"
+	},
+	"app": {
+	  "project": "$PROJECT",
+	  "repo": "$REPO",
+	  "branch": "$BRANCH"
+	},
+	"artifacts": [
+EOF
+CONT=0
+cat /tmp/artifacts | while read art
+do
+	if [ "$CONT" = 1 ]
+	then
+		echo ","
+	fi
+	echo $art
+	CONT=1
+done
+echo "]}"

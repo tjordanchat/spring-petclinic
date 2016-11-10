@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export BITBUCKET_URL="$( shyaml get-value bitbucket.url < ~/pass.yml )"
+export BITBUCKET_USER="$( shyaml get-value bitbucket.user < ~/pass.yml )"
+export BITBUCKET_PASSWD="$( shyaml get-value bitbucket.password < ~/pass.yml )"
+
+(
+	curl -q -u "${BITBUCKET_USER}:${BITBUCKET_PASSWD}" ${BITBUCKET_URL}/rest/api/1.0/projects |
+	    jq '.values | .[].key' | sed 's/"//g' |
+	    while read key
+			do
+  			curl -q -u "${BITBUCKET_USER}:${BITBUCKET_PASSWD}" ${BITBUCKET_URL}/rest/api/1.0/projects/$key/repos |
+  			     jq '.values[].links.clone[] | select(.name == "http").href'
+			done
+) 2>/dev/null

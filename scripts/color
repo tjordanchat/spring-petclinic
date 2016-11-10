@@ -1,0 +1,39 @@
+#!/bin/bash
+
+color=$1
+msg=$2
+
+black=0
+red=1
+green=2
+blue=4
+magenta=5
+cyan=6
+white=7
+
+case $color in
+	black)
+		tput setaf $black
+		;;
+	red)
+		tput setaf $red
+		;;
+	green)
+		tput setaf $green
+		;;
+	blue)
+		tput setag $blue
+		;;
+	magenta)
+		tput setaf $magenta
+		;;
+	cyan)
+		tput setaf $cyan
+		;;
+	white)
+		tput setaf $white
+		;;
+esac
+
+echo $msg
+tput sgr0
