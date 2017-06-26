@@ -55,6 +55,6 @@ done
 mkdir /tmp/deploy
 /usr/local/node_modules/mustache/bin/mustache /tmp/json_4_deploy.json /tmp/xldeploy_pom.xml.templ > /tmp/deploy/pom.xml
 /usr/local/node_modules/mustache/bin/mustache /tmp/json_4_deploy.json /tmp/xldeploy_settings.xml.templ > /tmp/deploy/settings.xml
-curl -u "$JIRA_USER_PASS" -k -X POST --data '{"body": "REPOSITORY '$REPO_PART' built successfully"}' -H "Content-Type: application/json"   https://jira-dev.pteassociatesys.local/rest/api/2/issue/SDP-1/comment
-#curl -D- -u "$JIRA_USER_PASS" -k -X POST -H "X-Atlassian-Token: nocheck" -F "file=@$SCREENSHOT"  https://jira-dev.pteassociatesys.local/rest/api/2/issue/SDP-1/attachments
-#curl -X PUT -u admincmart1 "http://devctlvsdpart01.pteassociatesys.local:8081/artifactory/api/build" -H "Content-Type: application/json" --upload-file build.json
+curl -u "$JIRA_USER_PASS" -k -X POST --data '{"body": "REPOSITORY '$REPO_PART' built successfully"}' -H "Content-Type: application/json"   https://jira.company.com/rest/api/2/issue/SDP-1/comment
+#curl -D- -u "$JIRA_USER_PASS" -k -X POST -H "X-Atlassian-Token: nocheck" -F "file=@$SCREENSHOT"  https://jira.company.com/rest/api/2/issue/SDP-1/attachments
+#curl -X PUT -u admincmart1 "http://artifactory.company.com:8081/artifactory/api/build" -H "Content-Type: application/json" --upload-file build.json
